@@ -1,6 +1,7 @@
 # flutter_tasks
 
-A new Flutter project.
+## project 2 created on May 26 2021
+This project searches for a github user using user input from the app's home screen's text input and displays the user's details in a different route.
 
 ## Getting Started
 
