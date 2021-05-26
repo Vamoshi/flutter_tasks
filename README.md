@@ -1,6 +1,8 @@
 # flutter_tasks
 
-A new Flutter project.
+## project 1 created on May 24 2021
+Generates Random list of word pairs in the home screen which you can tap on to favorite.
+Button on the side of the appbar routes to a different screen which displays a list of favorited word pairs
 
 ## Getting Started
 
