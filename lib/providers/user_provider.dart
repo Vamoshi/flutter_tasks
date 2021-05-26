@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:github_thing/model/user.dart';
@@ -20,18 +21,20 @@ class UserProvider with ChangeNotifier {
   Future<void> getUserProfile(String username) async {
     final url = '${Api.api}users/$username';
 
-    // print("Inside user_provider");
+    print("Inside user_provider");
     // print(url);
+    // print(username);
 
     try {
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Authorization': 'token ${Api.token}'},
+        headers: {HttpHeaders.authorizationHeader: Api.token},
       );
 
       final responseData = json.decode(response.body) as Map<String, dynamic>;
       // getKeysFromMap(responseData);
       // print(responseData["login"]);
+      // print(responseData);
 
       user = User(
         username: responseData["login"],
@@ -42,12 +45,12 @@ class UserProvider with ChangeNotifier {
         joinedDate: responseData["created_at"],
       );
 
-      print("User_provider username");
-      print(user.username);
+      // print("User_provider username");
+      // print(user.username);
 
       notifyListeners();
     } catch (e) {
-      print(e);
+      print("didn't find user");
     }
   }
 }
