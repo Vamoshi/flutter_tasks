@@ -1,6 +1,9 @@
 # flutter_tasks
 
-A new Flutter project.
+## project 3 created on 5/26/2021
+This project will be kind of like a combination between the first and second project. 
+It will accept a string which will be used to search for Github repos, and then list them;
+and as you scroll down will, hopefully, lazy load and will get 10 repos at a time. Hopefull it works!
 
 ## Getting Started
 
