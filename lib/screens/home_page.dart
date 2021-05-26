@@ -2,12 +2,14 @@ import "package:flutter/material.dart";
 import 'package:github_thing_2/screens/repos_page.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
-  HomePageState createState() => HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
-  TextEditingController _searchString = TextEditingController();
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _searchStringController = TextEditingController();
   final GlobalKey<FormState> _searchKey = GlobalKey();
 
   void submit() {
@@ -17,9 +19,11 @@ class HomePageState extends State<HomePage> {
 
     print("It's valid!");
 
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => ReposPage(),
-    ));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) =>
+              ReposPage(searchString: _searchStringController.text)),
+    );
   }
 
   @override
@@ -48,7 +52,7 @@ class HomePageState extends State<HomePage> {
                     color: Colors.pink[50],
                   ),
                   child: TextFormField(
-                    controller: _searchString,
+                    controller: _searchStringController,
                     style: TextStyle(
                       color: Colors.pink[500],
                     ),
