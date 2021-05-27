@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:github_thing_2/models/repo.dart';
 import 'package:github_thing_2/providers/repo_provider.dart';
@@ -32,7 +31,6 @@ class _ReposPageState extends State<ReposPage> {
   }
 
   _getMoreRepos() {
-    print("adding page");
     page = page + 1;
     setState(() {});
   }
@@ -43,7 +41,7 @@ class _ReposPageState extends State<ReposPage> {
       appBar: AppBar(
         title: Text(widget.searchString),
         centerTitle: true,
-        backgroundColor: Colors.pink[300],
+        backgroundColor: Colors.pink[500],
       ),
       body: FutureBuilder<List<Repo>>(
         future: getRepoList(widget.searchString, page),
@@ -51,21 +49,10 @@ class _ReposPageState extends State<ReposPage> {
           if (snapshot.hasData) {
             // List builder here
             final repos = snapshot.data;
-
-            for (var i = 0; i < repos!.length; i++) {
-              _repoList.add(repos[i]);
-            }
-
-            print("repos length: " + _repoList.length.toString());
-
+            _repoList = [...repos!];
             return ListView.builder(
-              controller: _scrollController,
-              itemCount: _repoList.length + 1,
+              itemCount: _repoList.length,
               itemBuilder: (context, index) {
-                if (index == _repoList.length) {
-                  return CupertinoActivityIndicator();
-                }
-
                 return ListTile(
                   title: Text(_repoList[index].id.toString()),
                   trailing: Text((index + 1).toString()),
@@ -73,23 +60,11 @@ class _ReposPageState extends State<ReposPage> {
               },
             );
           } else if (snapshot.hasError) {
-            print(snapshot.error);
             return const Text("An error has occured");
           }
-          return Container(
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const CircularProgressIndicator();
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _scrollController.dispose();
-    super.dispose();
   }
 }

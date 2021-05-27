@@ -12,20 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => RepoProvider(),
-      child: MaterialApp(
-        title: "Github Thing 2",
-        theme: ThemeData(
-            primarySwatch: Colors.pink,
-            visualDensity: VisualDensity.adaptivePlatformDensity),
-        home: const HomePage(),
-        // Scaffold(
-        //   appBar: AppBar(
-        //     title: const Text("This is the appbar title "),
-        //   ),
-        //   body: Text("This is body Text"),
-      ),
+    return MaterialApp(
+      title: "Github Thing 2",
+      theme: ThemeData(
+          primarySwatch: Colors.pink,
+          visualDensity: VisualDensity.adaptivePlatformDensity),
+      home: const HomePage(),
+      // Scaffold(
+      //   appBar: AppBar(
+      //     title: const Text("This is the appbar title "),
+      //   ),
+      //   body: Text("This is body Text"),
     );
   }
 }

@@ -28,18 +28,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Search Github Repos"),
         centerTitle: true,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.pink[300],
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(
+          margin: EdgeInsets.only(
             right: 20,
             left: 20,
-            top: 80,
+            top: (height / 2.9) - 20,
             bottom: 30,
           ),
           child: Form(
@@ -49,12 +51,12 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.pink[50],
+                    color: Colors.blue[50],
                   ),
                   child: TextFormField(
                     controller: _searchStringController,
                     style: TextStyle(
-                      color: Colors.pink[500],
+                      color: Colors.blue[500],
                     ),
                     onFieldSubmitted: (context) {
                       print("context");
@@ -68,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Look for Repos",
-                      hintStyle: TextStyle(color: Colors.pink[200]),
+                      hintStyle: TextStyle(color: Colors.blue[300]),
                       contentPadding: const EdgeInsets.all(10),
                     ),
                   ),
@@ -77,11 +79,14 @@ class _HomePageState extends State<HomePage> {
                   margin: const EdgeInsets.only(top: 10),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.grey[500],
+                    color: Colors.pink[300],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextButton(
-                    child: const Text("Search"),
+                    child: const Text(
+                      "Search",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       submit();
                     },

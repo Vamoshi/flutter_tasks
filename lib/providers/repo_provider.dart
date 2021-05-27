@@ -1,49 +1,57 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:github_thing_2/models/Repo.dart';
+import 'package:github_thing_2/models/repo.dart';
 import "package:http/http.dart" as http;
 
-class RepoProvider with ChangeNotifier {
-  late List repoList;
+Future<List<Repo>> getRepoList(String searchString, int pages) async {
+  final url =
+      "https://api.github.com/search/repositories?q=$searchString+language:assembly&sort=stars&order=desc&per_page=20&page=$pages";
 
-  Future<void> getRepoList(String searchString) async {
-    final url =
-        "https://api.github.com/search/repositories?q=$searchString+language:assembly&sort=stars&order=desc&per_page=10";
+  print("I should only run once!! Or everytime you scroll to the bottom");
 
-    if (repoList.isEmpty) {
-      try {
-        final response = await http.get(
-          Uri.parse(url),
-          // headers: {
-          //   HttpHeaders.authorizationHeader:
-          //       "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"
-          // },
-        );
-        var data = json.decode(response.body);
+  final response = await http.get(
+    Uri.parse(url),
+    // headers: {
+    //   HttpHeaders.authorizationHeader:
+    //       "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"
+    // },
+  );
 
-        repoList = data["items"].map((item) {
-          // print(item["id"].toString() +
-          //     item["name"] +
-          //     item["language"] +
-          //     item["html_url"] +
-          //     item["description"].toString());
-          return Repo(
-            id: item["id"],
-            name: item["name"],
-            language: item["language"],
-            url: item["html_url"],
-            description: item["description"] ?? "No Description",
-          );
-        }).toList();
+  if (response.statusCode == 200) {
+    var data = json.decode(response.body);
 
-        // print(items.length);
+    // var list = data["items"].map((item) {
+    //   // print(item["id"].toString() +
+    //   //     item["name"] +
+    //   //     item["language"] +
+    //   //     item["html_url"] +
+    //   //     item["description"].toString());
+    //   return Repo(
+    //     id: item["id"],
+    //     name: item["name"],
+    //     language: item["language"],
+    //     url: item["html_url"],
+    //     description: item["description"] ?? "No Description",
+    //   );
+    // });
 
-        notifyListeners();
-      } catch (e) {
-        print(e);
-      }
+    List<Repo> list = [];
+
+    for (var i = 0; i < data["items"].length; i++) {
+      var item = data["items"][i];
+
+      list.add(Repo(
+        id: item["id"],
+        name: item["name"],
+        language: item["language"],
+        url: item["html_url"],
+        description: item["description"] ?? "No Description",
+      ));
     }
+
+    return list;
+  } else {
+    throw Exception();
   }
+  // print(items.length);
 }
