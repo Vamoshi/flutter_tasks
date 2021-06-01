@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:flutter_tasks/src/ui/repo_list.dart';
+import 'package:flutter_tasks/src/screens/repo_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,7 +26,6 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Search Github Repos"),
         centerTitle: true,
-        backgroundColor: Colors.grey[300],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -43,16 +42,14 @@ class HomePageState extends State<HomePage> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.pink[50],
+                    color: Colors.white,
                   ),
                   child: TextFormField(
                     controller: _searchString,
-                    style: TextStyle(
-                      color: Colors.pink[500],
-                    ),
                     onFieldSubmitted: (context) {
                       submit();
                     },
+                    style: const TextStyle(color: Colors.black),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Please type something.";
@@ -61,7 +58,7 @@ class HomePageState extends State<HomePage> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Look for Repos",
-                      hintStyle: TextStyle(color: Colors.pink[200]),
+                      hintStyle: const TextStyle(color: Colors.black38),
                       contentPadding: const EdgeInsets.all(10),
                     ),
                   ),
@@ -74,7 +71,10 @@ class HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextButton(
-                    child: const Text("Search"),
+                    child: const Text(
+                      "Search",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       submit();
                     },

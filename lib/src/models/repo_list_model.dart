@@ -18,8 +18,6 @@ class RepoListModel {
       );
     }
 
-    print("Temp ${temp.length}");
-
     _repos.addAll(temp);
   }
 

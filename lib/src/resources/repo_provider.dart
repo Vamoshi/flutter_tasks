@@ -11,8 +11,6 @@ class RepoProvider {
 
       final items = json.decode(response.body)["items"];
 
-      print("Items ${items.length}");
-
       return RepoListModel.fromJson(items);
     } catch (e) {
       print(e);

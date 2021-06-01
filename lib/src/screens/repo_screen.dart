@@ -16,31 +16,17 @@ class RepoList extends StatefulWidget {
 }
 
 class _RepoListState extends State<RepoList> {
-  final ScrollController _scrollController = ScrollController();
-  int page = 1;
+  late RepoBloc repoBloc;
 
   @override
   void initState() {
     super.initState();
-    repoBloc.searchRepos(widget.searchString, page);
-    _scrollController.addListener(
-      () {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          print("adding page");
-          setState(() {
-            page++;
-            repoBloc.searchRepos(widget.searchString, page);
-          });
-        }
-      },
-    );
+    repoBloc = RepoBloc(searchString: widget.searchString);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    // repoBloc.dispose();
+    repoBloc.dispose();
     super.dispose();
   }
 
@@ -48,7 +34,9 @@ class _RepoListState extends State<RepoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Please work ${widget.searchString} $page'),
+        title: Text(
+            "${repoBloc.searchString[0].toUpperCase()}${repoBloc.searchString.substring(1)}"),
+        centerTitle: true,
       ),
       body: StreamBuilder(
         stream: repoBloc.allRepos,
@@ -68,10 +56,12 @@ class _RepoListState extends State<RepoList> {
 
   Widget _buildList(AsyncSnapshot<RepoListModel> snapshot) {
     return ListView.builder(
-      itemCount: snapshot.data!.repos.length,
-      controller: _scrollController,
+      itemCount: snapshot.data!.repos.length + 1,
+      controller: repoBloc.scrollController,
       itemBuilder: (context, index) {
         Repo item = snapshot.data!.repos[index];
+
+        print(index == snapshot.data!.repos.length);
 
         if (index == snapshot.data!.repos.length) {
           print("Im in");
@@ -80,7 +70,7 @@ class _RepoListState extends State<RepoList> {
 
         return ListTile(
           title: Text("${item.name} ${item.id}"),
-          trailing: Text('$index'),
+          trailing: Text('${index + 1}'),
         );
       },
     );
