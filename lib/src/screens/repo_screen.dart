@@ -17,16 +17,28 @@ class RepoList extends StatefulWidget {
 
 class _RepoListState extends State<RepoList> {
   late RepoBloc repoBloc;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     repoBloc = RepoBloc(searchString: widget.searchString);
+
+    _scrollController.addListener(
+      () {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          print("reached the bottom");
+          repoBloc.searchRepos();
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
     repoBloc.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -55,19 +67,20 @@ class _RepoListState extends State<RepoList> {
   }
 
   Widget _buildList(AsyncSnapshot<RepoListModel> snapshot) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: snapshot.data!.repos.length + 1,
-      controller: repoBloc.scrollController,
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      controller: _scrollController,
       itemBuilder: (context, index) {
-        Repo item = snapshot.data!.repos[index];
-
-        print(index == snapshot.data!.repos.length);
+        const double padding = 5;
 
         if (index == snapshot.data!.repos.length) {
-          print("Im in");
-          return const CupertinoActivityIndicator();
+          return Container(
+              padding: const EdgeInsets.all(padding),
+              child: const CupertinoActivityIndicator());
         }
 
+        Repo item = snapshot.data!.repos[index];
         return ListTile(
           title: Text("${item.name} ${item.id}"),
           trailing: Text('${index + 1}'),

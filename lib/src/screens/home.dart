@@ -55,7 +55,7 @@ class HomePageState extends State<HomePage> {
                         return "Please type something.";
                       }
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: "Look for Repos",
                       hintStyle: const TextStyle(color: Colors.black38),

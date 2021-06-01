@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_tasks/src/models/repo_list_model.dart';
 import 'package:flutter_tasks/src/resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,11 +8,11 @@ class RepoBloc {
 
   // controllers
   final _repoListController = PublishSubject<RepoListModel>();
-  final ScrollController _scrollController = ScrollController();
 
   // attributes
   int _page = 1;
   String _searchString = "";
+  final RepoListModel _repoList = RepoListModel();
 
   // constructor
   RepoBloc({
@@ -21,26 +20,17 @@ class RepoBloc {
   }) {
     _searchString = searchString;
 
-    _scrollController.addListener(
-      () {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          print("reached the bottom");
-          searchRepos();
-        }
-      },
-    );
     searchRepos();
   }
 
   searchRepos() async {
     print("Page: $_page");
-    RepoListModel repoList =
-        await _repository.searchRepos(_searchString, _page);
-    _repoListController.sink.add(repoList);
 
-    print("RepoController ${_repoListController.single.toString()}");
-
+    // Add to bloc's repoList
+    _repoList.addRepos(await _repository.searchRepos(_searchString, _page));
+    // Add to sink
+    _repoListController.sink.add(_repoList);
+    // Increment page
     _page++;
   }
 
@@ -48,11 +38,9 @@ class RepoBloc {
   Stream<RepoListModel> get allRepos => _repoListController.stream;
   int get page => _page;
   String get searchString => _searchString;
-  ScrollController get scrollController => _scrollController;
 
   dispose() {
     _repoListController.close();
-    _scrollController.dispose();
   }
 }
 

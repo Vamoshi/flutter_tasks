@@ -3,6 +3,8 @@ import 'package:flutter_tasks/src/models/repo_model.dart';
 class RepoListModel {
   final List<Repo> _repos = [];
 
+  RepoListModel();
+
   RepoListModel.fromJson(List items) {
     List<Repo> temp = [];
 
@@ -19,6 +21,10 @@ class RepoListModel {
     }
 
     _repos.addAll(temp);
+  }
+
+  void addRepos(RepoListModel newList) {
+    _repos.addAll(newList.repos);
   }
 
   List<Repo> get repos => _repos;
