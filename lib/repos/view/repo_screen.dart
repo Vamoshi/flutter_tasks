@@ -19,7 +19,8 @@ class RepoScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: BlocProvider(
-        create: (_) => ReposBloc(http.Client(), searchString),
+        create: (_) =>
+            ReposBloc(http.Client(), searchString)..add(ReposFetching()),
         child: const RepoList(),
       ),
     );

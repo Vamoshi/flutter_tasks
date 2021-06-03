@@ -8,8 +8,6 @@ class RepoListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Repo Name ${repo.name}");
-
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Text(
@@ -18,7 +16,7 @@ class RepoListItem extends StatelessWidget {
       ),
       title: Text(repo.name),
       isThreeLine: true,
-      subtitle: Text(repo.description),
+      subtitle: Text(repo.language),
       dense: true,
     );
   }

@@ -7,4 +7,6 @@ abstract class ReposEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ReposFetching extends ReposEvent {}
+
 class ReposFetched extends ReposEvent {}

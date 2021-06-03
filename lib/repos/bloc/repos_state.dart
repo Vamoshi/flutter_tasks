@@ -35,7 +35,7 @@ class ReposState extends Equatable {
 
   @override
   String toString() {
-    return '''PostState {status: $status, hasReachedMax: $hasReachedMax, repos: ${repos.length}, $page}''';
+    return '''RepoState {status: $status, hasReachedMax: $hasReachedMax, repos: ${repos.length}, $page}''';
   }
 
   @override

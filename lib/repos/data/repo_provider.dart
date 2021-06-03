@@ -1,20 +1,24 @@
 import 'dart:convert';
 
-import 'package:flutter_tasks/repos/models/repo_model.dart';
 import 'package:http/http.dart' as http;
 
 class RepoProvider {
-  Future<List<Repo>> fetchRepos(searchString, page) async {
+  Future<List> fetchRepos(searchString, page) async {
     try {
       final response = await http.get(Uri.parse(
           "https://api.github.com/search/repositories?q=$searchString&sort=stars&order=desc&per_page=20&page=$page"));
 
-      final items = json.decode(response.body)["items"];
+      print("Status: ${response.statusCode}");
 
-      return items as Future<List<Repo>>;
+      if (response.statusCode == 403) {
+        return [];
+      }
+
+      List items = json.decode(response.body)["items"];
+      return items;
     } catch (e) {
       print(e);
-      throw Exception("error fetching posts");
+      throw Exception("Error fetching posts");
     }
   }
 }
