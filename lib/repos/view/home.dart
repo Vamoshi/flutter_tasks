@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
-import 'package:flutter_tasks/repos/view/repo_screen.dart';
+import 'package:flutter_tasks/repos/view/repos_provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
   @override
-  HomePageState createState() => HomePageState();
+  HomeState createState() => HomeState();
 }
 
-class HomePageState extends State<HomePage> {
+class HomeState extends State<Home> {
   final TextEditingController _searchString = TextEditingController();
   final GlobalKey<FormState> _searchKey = GlobalKey();
 
@@ -17,72 +17,81 @@ class HomePageState extends State<HomePage> {
     }
 
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => RepoScreen(searchString: _searchString.text),
+      builder: (context) => RepoProvider(searchString: _searchString.text),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
+    final window = MediaQuery.of(context).size;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Search Github Repos"),
-        centerTitle: true,
-      ),
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(
+          margin: EdgeInsets.only(
             right: 20,
             left: 20,
-            top: 80,
+            top: window.height * 0.1,
             bottom: 30,
           ),
-          child: Form(
-            key: _searchKey,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: TextFormField(
-                    controller: _searchString,
-                    onFieldSubmitted: (context) {
-                      submit();
-                    },
-                    style: const TextStyle(color: Colors.black),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please type something.";
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Look for Repos",
-                      hintStyle: TextStyle(color: Colors.black38),
-                      contentPadding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/github.png',
+                height: 280,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Form(
+                key: _searchKey,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _searchString,
+                        onFieldSubmitted: (context) {
+                          submit();
+                        },
+                        style: const TextStyle(color: Colors.black),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please type something.";
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Look for Repos",
+                          hintStyle: TextStyle(color: Colors.black38),
+                          contentPadding: EdgeInsets.all(10),
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[500],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextButton(
+                        child: const Text(
+                          "Search",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          submit();
+                        },
+                      ),
+                    )
+                  ],
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[500],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextButton(
-                    child: const Text(
-                      "Search",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      submit();
-                    },
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

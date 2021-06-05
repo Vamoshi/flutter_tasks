@@ -1,18 +1,18 @@
-import 'package:flutter_tasks/repos/data/repo_provider.dart';
-import 'package:flutter_tasks/repos/models/repo_model.dart';
+import 'package:flutter_tasks/repos/data/repos_data.dart';
+import 'package:flutter_tasks/repos/models/repos_model.dart';
 
 class Repository {
-  final repoProvider = RepoProvider();
+  final repoProvider = ReposData();
 
-  Future<List<Repo>> fetchRepos(searchString, page) async {
+  Future<List<Repos>> fetchRepos(searchString, page) async {
     final List items = await repoProvider.fetchRepos(searchString, page);
 
-    List<Repo> repos = [];
+    List<Repos> repos = [];
 
     for (var i = 0; i < items.length; i++) {
       final item = items[i];
 
-      repos.add(Repo(
+      repos.add(Repos(
         id: item["id"],
         name: item["name"] ?? "No Name",
         language: item["language"] ?? "No Language",

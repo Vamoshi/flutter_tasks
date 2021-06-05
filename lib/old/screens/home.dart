@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:flutter_tasks/src/screens/repo_screen.dart';
+import 'package:flutter_tasks/old/screens/repo_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override

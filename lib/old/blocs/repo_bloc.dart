@@ -1,5 +1,5 @@
-import 'package:flutter_tasks/src/models/repo_list_model.dart';
-import 'package:flutter_tasks/src/resources/repository.dart';
+import 'package:flutter_tasks/old/models/repo_list_model.dart';
+import 'package:flutter_tasks/old/resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RepoBloc {

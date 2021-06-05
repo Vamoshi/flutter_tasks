@@ -1,4 +1,4 @@
-import 'package:flutter_tasks/src/models/repo_model.dart';
+import 'package:flutter_tasks/old/models/repo_model.dart';
 
 class RepoListModel {
   final List<Repo> _repos = [];

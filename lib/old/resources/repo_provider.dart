@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter_tasks/src/models/repo_list_model.dart';
+import 'package:flutter_tasks/old/models/repo_list_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

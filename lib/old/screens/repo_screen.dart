@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tasks/src/blocs/repo_bloc.dart';
-import 'package:flutter_tasks/src/models/repo_list_model.dart';
-import 'package:flutter_tasks/src/models/repo_model.dart';
+import 'package:flutter_tasks/old/blocs/repo_bloc.dart';
+import 'package:flutter_tasks/old/models/repo_list_model.dart';
+import 'package:flutter_tasks/old/models/repo_model.dart';
 
 class RepoList extends StatefulWidget {
   final String searchString;

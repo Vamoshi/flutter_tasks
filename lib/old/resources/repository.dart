@@ -1,4 +1,4 @@
-import 'package:flutter_tasks/src/models/repo_list_model.dart';
+import 'package:flutter_tasks/old/models/repo_list_model.dart';
 
 import 'repo_provider.dart';
 

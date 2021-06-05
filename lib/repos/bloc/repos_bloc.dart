@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_tasks/repos/data/repository.dart';
-import 'package:flutter_tasks/repos/models/repo_model.dart';
+import 'package:flutter_tasks/repos/models/repos_model.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:equatable/equatable.dart';
@@ -11,17 +11,22 @@ part 'repos_state.dart';
 
 class ReposBloc extends Bloc<ReposEvent, ReposState> {
   final http.Client httpClient;
-  final String searchString;
-  final repository = Repository();
+  final String _searchString;
+  final _repository = Repository();
+  late Repos _repo;
 
-  ReposBloc(this.httpClient, this.searchString) : super(const ReposState());
+  ReposBloc(this.httpClient, this._searchString) : super(const ReposState());
 
-  String get getSearchString => searchString;
+  String get searchString => _searchString;
+  Repos get repo => _repo;
 
   @override
   Stream<ReposState> mapEventToState(ReposEvent event) async* {
-    if (event is ReposFetching) {
+    if (event is ReposFetched) {
       yield await _mapReposStateToState(state);
+    }
+    if (event is ReposChosen) {
+      this._repo = event.repo;
     }
   }
 
@@ -31,22 +36,20 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
     // Initialize
     try {
       if (state.status == ReposStatus.initial) {
-        final List<Repo> repos =
-            await repository.fetchRepos(searchString, state.page);
+        final List<Repos> repos =
+            await _repository.fetchRepos(_searchString, state.page);
 
         return state.copyWith(
           status: ReposStatus.success,
           repos: repos,
           hasReachedMax: false,
           page: 1,
-          searchString: searchString,
+          searchString: _searchString,
         );
       }
 
-      print("------------------");
-
       // Fetching new
-      final repos = await repository.fetchRepos(searchString, state.page);
+      final repos = await _repository.fetchRepos(_searchString, state.page);
 
       return repos.isEmpty
           ? state.copyWith(hasReachedMax: true)
@@ -55,7 +58,7 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
               repos: List.of(state.repos)..addAll(repos),
               hasReachedMax: false,
               page: state.page + 1,
-              searchString: searchString,
+              searchString: _searchString,
             );
     } on Exception {
       return state.copyWith(status: ReposStatus.failure);

@@ -7,6 +7,9 @@ abstract class ReposEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ReposFetching extends ReposEvent {}
-
 class ReposFetched extends ReposEvent {}
+
+class ReposChosen extends ReposEvent {
+  final Repos repo;
+  ReposChosen({required this.repo});
+}

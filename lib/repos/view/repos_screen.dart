@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 
 // Components
 import 'package:flutter_tasks/repos/widgets/bottom_loader.dart';
-import 'package:flutter_tasks/repos/widgets/repo_list_item.dart';
+import 'package:flutter_tasks/repos/widgets/repos_list_item.dart';
 import 'package:flutter_tasks/repos/bloc/repos_bloc.dart';
 
-class RepoList extends StatefulWidget {
-  const RepoList({Key? key}) : super(key: key);
+class RepoScreen extends StatefulWidget {
+  const RepoScreen({Key? key}) : super(key: key);
 
   @override
-  _RepoListState createState() => _RepoListState();
+  _RepoScreenState createState() => _RepoScreenState();
 }
 
-class _RepoListState extends State<RepoList> {
+class _RepoScreenState extends State<RepoScreen> {
   final _scrollController = ScrollController();
   late ReposBloc _reposBloc;
-  bool fetchingFlag = true;
+  bool _fetchingFlag = true;
 
   @override
   void initState() {
@@ -29,37 +29,33 @@ class _RepoListState extends State<RepoList> {
 
   @override
   void dispose() {
+    print("-------disposing");
+    _reposBloc.close();
     _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(fetchingFlag);
-
     return BlocBuilder<ReposBloc, ReposState>(
       builder: (context, state) {
-        print("repos state length ${state.repos.length}");
-
         switch (state.status) {
           case ReposStatus.failure:
             return const Center(
               child: Text("Failed to fetch Repos"),
             );
           case ReposStatus.success:
-            print("-------success");
-            _reposBloc.add(ReposFetched());
             if (state.repos.isEmpty) {
               return const Center(
                 child: Text("No Posts"),
               );
             }
-            fetchingFlag = true;
+            _fetchingFlag = true;
             return ListView.builder(
               itemBuilder: (context, index) {
                 return index >= state.repos.length
                     ? const BottomLoader()
-                    : RepoListItem(repo: state.repos[index]);
+                    : ReposListItem(repo: state.repos[index]);
               },
               itemCount: state.hasReachedMax
                   ? state.repos.length
@@ -67,7 +63,6 @@ class _RepoListState extends State<RepoList> {
               controller: _scrollController,
             );
           case ReposStatus.initial:
-            print("--------initial");
             // if (state.repos.isEmpty) {
             //   return const Center(
             //     child: Text("No Posts"),
@@ -76,17 +71,19 @@ class _RepoListState extends State<RepoList> {
             return ListView.builder(
               itemBuilder: (context, index) {
                 return index >= state.repos.length
-                    ? const BottomLoader()
-                    : RepoListItem(repo: state.repos[index]);
+                    ? Center(
+                        child: Column(
+                        children: [
+                          SizedBox(height: 20),
+                          BottomLoader(),
+                        ],
+                      ))
+                    : ReposListItem(repo: state.repos[index]);
               },
               itemCount: state.hasReachedMax
                   ? state.repos.length
                   : state.repos.length + 1,
               controller: _scrollController,
-            );
-          default:
-            return const Center(
-              child: CircularProgressIndicator(),
             );
         }
       },
@@ -94,10 +91,9 @@ class _RepoListState extends State<RepoList> {
   }
 
   void _onScroll() {
-    if (_isBottom && fetchingFlag) {
-      print("SHould be fetching");
-      fetchingFlag = false;
-      _reposBloc.add(ReposFetching());
+    if (_isBottom && _fetchingFlag) {
+      _fetchingFlag = false;
+      _reposBloc.add(ReposFetched());
     }
   }
 

@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tasks/repos/bloc/repos_bloc.dart';
-import 'package:flutter_tasks/repos/view/repo_list.dart';
+import 'package:flutter_tasks/repos/view/repos_screen.dart';
 import 'package:http/http.dart' as http;
 
-class RepoScreen extends StatelessWidget {
-  const RepoScreen({Key? key, required this.searchString}) : super(key: key);
+class RepoProvider extends StatelessWidget {
+  const RepoProvider({Key? key, required this.searchString}) : super(key: key);
 
   final String searchString;
 
@@ -20,8 +20,8 @@ class RepoScreen extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (_) =>
-            ReposBloc(http.Client(), searchString)..add(ReposFetching()),
-        child: const RepoList(),
+            ReposBloc(http.Client(), searchString)..add(ReposFetched()),
+        child: const RepoScreen(),
       ),
     );
   }
