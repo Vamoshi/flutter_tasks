@@ -29,7 +29,7 @@ class _RepoScreenState extends State<RepoScreen> {
 
   @override
   void dispose() {
-    print("-------disposing");
+    print("disposing repos_screen");
     _reposBloc.close();
     _scrollController.dispose();
     super.dispose();
@@ -55,7 +55,10 @@ class _RepoScreenState extends State<RepoScreen> {
               itemBuilder: (context, index) {
                 return index >= state.repos.length
                     ? const BottomLoader()
-                    : ReposListItem(repo: state.repos[index]);
+                    : ReposListItem(
+                        repo: state.repos[index],
+                        index: index,
+                      );
               },
               itemCount: state.hasReachedMax
                   ? state.repos.length
@@ -78,7 +81,10 @@ class _RepoScreenState extends State<RepoScreen> {
                           BottomLoader(),
                         ],
                       ))
-                    : ReposListItem(repo: state.repos[index]);
+                    : ReposListItem(
+                        repo: state.repos[index],
+                        index: index,
+                      );
               },
               itemCount: state.hasReachedMax
                   ? state.repos.length

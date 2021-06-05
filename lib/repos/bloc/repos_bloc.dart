@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter_tasks/repos/data/repository.dart';
+import 'package:flutter_tasks/repository.dart';
 import 'package:flutter_tasks/repos/models/repos_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,13 +12,13 @@ part 'repos_state.dart';
 class ReposBloc extends Bloc<ReposEvent, ReposState> {
   final http.Client httpClient;
   final String _searchString;
-  final _repository = Repository();
-  late Repos _repo;
+  final _repository = ReposRepository();
+  // late Repos _repo;
 
   ReposBloc(this.httpClient, this._searchString) : super(const ReposState());
 
-  String get searchString => _searchString;
-  Repos get repo => _repo;
+  // String get searchString => _searchString;
+  // Repos get repo => _repo;
 
   @override
   Stream<ReposState> mapEventToState(ReposEvent event) async* {
@@ -26,7 +26,18 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
       yield await _mapReposStateToState(state);
     }
     if (event is ReposChosen) {
-      this._repo = event.repo;
+      Repos repo = event.repo;
+      yield await state.copyWith(
+        status: ReposStatus.success,
+        repo: Repos(
+          id: repo.id,
+          name: repo.name,
+          language: repo.language,
+          url: repo.url,
+          description: repo.description,
+          ownerId: repo.ownerId,
+        ),
+      );
     }
   }
 
@@ -43,13 +54,14 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
           status: ReposStatus.success,
           repos: repos,
           hasReachedMax: false,
-          page: 1,
+          page: 2,
           searchString: _searchString,
         );
       }
-
       // Fetching new
       final repos = await _repository.fetchRepos(_searchString, state.page);
+
+      print("----------FETCHED REPOS LENGTH ${repos.length}");
 
       return repos.isEmpty
           ? state.copyWith(hasReachedMax: true)

@@ -6,13 +6,15 @@ class Repos extends Equatable {
   final String language;
   final String url;
   final String description;
+  final int ownerId;
 
-  Repos({
+  const Repos({
     required this.id,
     required this.name,
     required this.language,
     required this.url,
     required this.description,
+    required this.ownerId,
   });
 
   @override

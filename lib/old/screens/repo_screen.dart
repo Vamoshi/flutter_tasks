@@ -28,7 +28,6 @@ class _RepoListState extends State<RepoList> {
       () {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
-          print("reached the bottom");
           repoBloc.searchRepos();
         }
       },

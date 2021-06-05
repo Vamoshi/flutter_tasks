@@ -24,8 +24,6 @@ class RepoBloc {
   }
 
   searchRepos() async {
-    print("Page: $_page");
-
     // Add to bloc's repoList
     _repoList.addRepos(await _repository.searchRepos(_searchString, _page));
     // Add to sink

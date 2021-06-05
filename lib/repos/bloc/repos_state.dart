@@ -8,6 +8,7 @@ class ReposState extends Equatable {
   final bool hasReachedMax;
   final int page;
   final String searchString;
+  final Repos repo;
 
   const ReposState({
     this.status = ReposStatus.initial,
@@ -15,6 +16,14 @@ class ReposState extends Equatable {
     this.hasReachedMax = false,
     this.page = 1,
     this.searchString = "",
+    this.repo = const Repos(
+      id: -1,
+      name: "",
+      language: "",
+      url: "",
+      description: "",
+      ownerId: -1,
+    ),
   });
 
   ReposState copyWith({
@@ -22,6 +31,7 @@ class ReposState extends Equatable {
     List<Repos>? repos,
     bool? hasReachedMax,
     int? page,
+    Repos? repo,
     String? searchString,
   }) {
     return ReposState(
@@ -30,6 +40,7 @@ class ReposState extends Equatable {
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       page: page ?? this.page,
       searchString: searchString ?? this.searchString,
+      repo: repo ?? this.repo,
     );
   }
 
@@ -39,5 +50,5 @@ class ReposState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, repos, hasReachedMax, page];
+  List<Object?> get props => [status, repos, hasReachedMax, page, repo];
 }
