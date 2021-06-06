@@ -5,8 +5,12 @@ import 'package:http/http.dart' as http;
 class ReposData {
   Future<List> fetchRepos(searchString, page) async {
     try {
-      final response = await http.get(Uri.parse(
-          "https://api.github.com/search/repositories?q=$searchString&sort=stars&order=desc&per_page=20&page=$page"));
+      final response = await http.get(
+        Uri.parse(
+          // "https://api.github.com/search/repositories?q=$searchString&sort=stars&order=desc&per_page=20&page=$page",
+          "http://127.0.0.1:5000/api/repositories?searchString=$searchString&page=$page",
+        ),
+      );
 
       if (response.statusCode == 403) {
         return [];
