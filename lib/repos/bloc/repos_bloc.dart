@@ -19,7 +19,7 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
   @override
   Stream<ReposState> mapEventToState(ReposEvent event) async* {
     if (event is ReposFetched) {
-      yield await _mapReposStateToState(state);
+      yield await _mapReposEventToState(state);
     }
     if (event is ReposChosen) {
       Repos repo = event.repo;
@@ -37,7 +37,7 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
     }
   }
 
-  Future<ReposState> _mapReposStateToState(ReposState state) async {
+  Future<ReposState> _mapReposEventToState(ReposState state) async {
     if (state.hasReachedMax) return state;
 
     // Initialize
