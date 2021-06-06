@@ -13,10 +13,16 @@ class ReposDetailsProvider extends StatefulWidget {
 }
 
 class _ReposDetailsProviderState extends State<ReposDetailsProvider> {
+  late ReposBloc reposBloc;
+
+  @override
+  void initState() {
+    reposBloc = context.read<ReposBloc>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    ReposBloc reposBloc = BlocProvider.of<ReposBloc>(context);
-
     return Scaffold(
       body: BlocProvider(
         create: (context) =>

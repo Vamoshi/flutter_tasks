@@ -13,12 +13,8 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
   final http.Client httpClient;
   final String _searchString;
   final _repository = ReposRepository();
-  // late Repos _repo;
 
   ReposBloc(this.httpClient, this._searchString) : super(const ReposState());
-
-  // String get searchString => _searchString;
-  // Repos get repo => _repo;
 
   @override
   Stream<ReposState> mapEventToState(ReposEvent event) async* {
@@ -60,8 +56,6 @@ class ReposBloc extends Bloc<ReposEvent, ReposState> {
       }
       // Fetching new
       final repos = await _repository.fetchRepos(_searchString, state.page);
-
-      print("----------FETCHED REPOS LENGTH ${repos.length}");
 
       return repos.isEmpty
           ? state.copyWith(hasReachedMax: true)
