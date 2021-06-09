@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tasks/screens/home_screen.dart';
+import 'package:flutter_tasks/screens/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark(),
       home: Scaffold(
-        body: HomeScreen(),
+        body: WelcomeScreen(),
       ),
     );
   }

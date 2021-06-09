@@ -4,12 +4,12 @@ import 'package:flutter_tasks/blocs/profile_bloc/profile_bloc.dart';
 import 'package:flutter_tasks/screens/home_screen.dart';
 
 class ProfileProvider extends StatelessWidget {
-  ProfileProvider({Key? key}) : super(key: key);
+  const ProfileProvider({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => ProfileBloc(),
+        create: (_) => ProfileBloc()..add(ProfileFetched()),
         child: const HomeScreen(),
       ),
     );
