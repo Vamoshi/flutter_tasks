@@ -23,7 +23,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<ProfileState> _mapEventToState(ProfileState state) async {
     try {
-      final profile = await _repository.fetchProfile();
+      final ProfileModel profile = await _repository.fetchProfile();
 
       return state.copyWith(
         status: ProfileStatus.success,
