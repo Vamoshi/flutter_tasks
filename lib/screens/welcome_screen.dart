@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tasks/login_bloc/login_providers/login_provider.dart';
 import 'package:flutter_tasks/profile_bloc/bloc_providers/profile_provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -62,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ProfileProvider(),
+                      builder: (context) => const LoginProvider(),
                     ),
                   );
                 },

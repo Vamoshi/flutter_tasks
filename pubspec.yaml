@@ -32,6 +32,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   equatable: ^2.0.2
   flutter_bloc: ^7.0.1
+  form_field_validator: ^1.1.0
   http: ^0.13.3
   url_launcher: ^6.0.6
 

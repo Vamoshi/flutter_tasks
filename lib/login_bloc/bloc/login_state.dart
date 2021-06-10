@@ -10,7 +10,8 @@ class LoginState extends Equatable {
     this.status = LoginStatus.initial,
     this.login = const LoginModel(
       email: '',
-      password: '',
+      message: '',
+      userId: -1,
     ),
   });
 

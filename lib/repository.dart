@@ -1,3 +1,5 @@
+import 'package:flutter_tasks/login_bloc/data/login_data.dart';
+import 'package:flutter_tasks/login_bloc/models/login_model.dart';
 import 'package:flutter_tasks/profile_bloc/data/profile_data.dart';
 import 'package:flutter_tasks/profile_bloc/models/profile_model.dart';
 
@@ -30,5 +32,19 @@ class ProfileRepository {
         averageDailySteps: -1,
       );
     }
+  }
+}
+
+class LoginRepository {
+  final _loginProvider = LoginData();
+
+  Future<LoginModel> getUserId(email, password) async {
+    final response = await _loginProvider.getUserId(email, password);
+
+    return LoginModel(
+      email: email,
+      message: response['message'],
+      userId: response['result'],
+    );
   }
 }
