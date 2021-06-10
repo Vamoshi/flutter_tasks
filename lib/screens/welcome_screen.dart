@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tasks/bloc_providers/profile_provider.dart';
+import 'package:flutter_tasks/profile_bloc/bloc_providers/profile_provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_tasks/models/profile_model.dart';
+import 'package:flutter_tasks/profile_bloc/models/profile_model.dart';
 import 'package:flutter_tasks/repository.dart';
 
 part 'profile_event.dart';

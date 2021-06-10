@@ -1,6 +1,5 @@
-import 'package:flutter_tasks/models/profile_model.dart';
-
-import 'data/profile_data.dart';
+import 'package:flutter_tasks/profile_bloc/data/profile_data.dart';
+import 'package:flutter_tasks/profile_bloc/models/profile_model.dart';
 
 class ProfileRepository {
   final _profileProvider = ProfileData();

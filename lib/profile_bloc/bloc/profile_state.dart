@@ -32,7 +32,7 @@ class ProfileState extends Equatable {
 
   @override
   String toString() {
-    return '''RepoState {status: $status, profile: $profile''';
+    return '''ProfileState {status: $status, profile: $profile''';
   }
 
   @override

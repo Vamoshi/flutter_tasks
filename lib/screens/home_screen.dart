@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tasks/blocs/profile_bloc/profile_bloc.dart';
-import 'package:flutter_tasks/screens/profile_screen.dart';
+import 'package:flutter_tasks/profile_bloc/bloc/profile_bloc.dart';
+import 'package:flutter_tasks/profile_bloc/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
