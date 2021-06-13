@@ -108,8 +108,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget RegisterForm(String message) {
     final window = MediaQuery.of(context).size;
 
-    print("PASSWORD AND PASSWORDCOPY ${_password.text} ${_passwordCopy.text}");
-
     return SingleChildScrollView(
       child: Form(
         key: _formKey,

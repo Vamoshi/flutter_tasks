@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tasks/activity_summary_bloc/bloc_providers/activity_summary_provider.dart';
 import 'package:flutter_tasks/screens/welcome_screen.dart';
 import 'package:flutter_tasks/user_authentication_bloc/bloc/user_authentication_bloc.dart';
 import 'package:flutter_tasks/user_authentication_bloc/screens/register_screen.dart';
@@ -32,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void removeCachedUserId() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('user_id');
-    print("USER ID IS NOW ==== ${prefs.getInt('user_id')}");
   }
 
   @override
@@ -44,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<int?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
     final user_id = prefs.getInt('user_id');
-    print("USER ID IS NOW ==== ${prefs.getInt('user_id')}");
     return user_id;
   }
 
@@ -113,28 +112,31 @@ class _LoginScreenState extends State<LoginScreen> {
             );
 
           case UserAuthenticationStatus.FitbitAuthSuccess:
-            // TODO: Handle this case.
-            return Column(
-              children: [
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 100),
-                    child: Text(state.login.message),
+            return Container(
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.only(top: 100),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ActivitySummaryProvider()));
+                    },
+                    child: Text("Click Here!"),
                   ),
                 ),
-                TextButton(
-                    onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      prefs.remove("user_id");
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => WelcomeScreen(),
-                        ),
-                      );
-                    },
-                    child: Text("Logout"))
-              ],
+              ),
             );
+          // TextButton(
+          //     onPressed: () async {
+          //       final prefs = await SharedPreferences.getInstance();
+          //       prefs.remove("user_id");
+          //       Navigator.of(context).push(
+          //         MaterialPageRoute(
+          //           builder: (context) => WelcomeScreen(),
+          //         ),
+          //       );
+          //     },
+          //     child: Text("Logout"))
         }
       },
     );

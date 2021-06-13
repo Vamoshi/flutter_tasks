@@ -13,8 +13,6 @@ class ProfileData {
         ),
       );
 
-      print("TYPE OF RESPONSE IS ${response.body.runtimeType}");
-
       result = await checkConsent(response.body);
 
       return result;

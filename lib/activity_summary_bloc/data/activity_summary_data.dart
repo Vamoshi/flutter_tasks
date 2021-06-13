@@ -1,23 +1,23 @@
 import 'dart:convert';
 
-import 'package:flutter_tasks/user_authentication_bloc/models/user_authentication_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 
-class UserAuthenticationData {
-  Future getUserId(email, password, userId) async {
+class ActivitySummaryData {
+  Future getSteps(userId) async {
     try {
+      final now = DateTime.now();
+      final month = now.month < 10 ? "0${now.month}" : now.month;
+      final day = now.day < 10 ? "0${now.day}" : now.day;
+      final date = "${now.year}-${month}-${day}";
       final response = await http.post(
         Uri.parse(
-          "http://127.0.0.1:5000/app/login",
+          "http://127.0.0.1:5000/fitbit/steps/${date}",
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
           <String, dynamic>{
-            'email': email,
-            'password': password,
             'user_id': userId,
           },
         ),
@@ -31,19 +31,22 @@ class UserAuthenticationData {
     }
   }
 
-  Future registerUser(email, password) async {
+  Future getSleep(userId) async {
     try {
+      final now = DateTime.now();
+      final month = now.month < 10 ? "0${now.month}" : now.month;
+      final day = now.day < 10 ? "0${now.day}" : now.day;
+      final date = "${now.year}-${month}-${day}";
       final response = await http.post(
         Uri.parse(
-          "http://127.0.0.1:5000/app/register",
+          "http://127.0.0.1:5000/fitbit/sleep/${date}",
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
           <String, dynamic>{
-            'email': email,
-            'password': password,
+            'user_id': userId,
           },
         ),
       );
@@ -56,11 +59,15 @@ class UserAuthenticationData {
     }
   }
 
-  Future authorizeFitbit(userId) async {
+  Future getCalories(userId) async {
     try {
-      var response = await http.post(
+      final now = DateTime.now();
+      final month = now.month < 10 ? "0${now.month}" : now.month;
+      final day = now.day < 10 ? "0${now.day}" : now.day;
+      final date = "${now.year}-${month}-${day}";
+      final response = await http.post(
         Uri.parse(
-          "http://127.0.0.1:5000/fitbit/consent",
+          "http://127.0.0.1:5000/fitbit/calories/${date}",
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -72,24 +79,11 @@ class UserAuthenticationData {
         ),
       );
 
-      var url = response.body;
+      final result = json.decode(response.body);
 
-      if (await canLaunch(url)) {
-        await launch(url, forceWebView: true, enableJavaScript: true);
-      }
-
-      return UserAuthenticationModel(
-        email: "",
-        message: "Successfully Logged into Fitbit",
-        userId: userId,
-      );
+      return result;
     } catch (e) {
-      print(e);
-      return UserAuthenticationModel(
-        email: "",
-        message: "Failed to launch url",
-        userId: userId,
-      );
+      throw Exception(e);
     }
   }
 }

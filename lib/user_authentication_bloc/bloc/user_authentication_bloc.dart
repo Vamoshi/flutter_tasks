@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_tasks/repository.dart';
-import 'package:flutter_tasks/user_authentication_bloc/models/login_model.dart';
+import 'package:flutter_tasks/user_authentication_bloc/models/user_authentication_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'user_authentication_event.dart';

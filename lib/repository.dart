@@ -1,8 +1,11 @@
+import 'package:flutter_tasks/activity_summary_bloc/models/activity_summary_model.dart';
 import 'package:flutter_tasks/profile_bloc/data/profile_data.dart';
 import 'package:flutter_tasks/profile_bloc/models/profile_model.dart';
 import 'package:flutter_tasks/user_authentication_bloc/data/user_authentication_data.dart';
-import 'package:flutter_tasks/user_authentication_bloc/models/login_model.dart';
+import 'package:flutter_tasks/user_authentication_bloc/models/user_authentication_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'activity_summary_bloc/data/activity_summary_data.dart';
 
 class ProfileRepository {
   final _profileProvider = ProfileData();
@@ -78,5 +81,26 @@ class UserAuthenticationRepository {
     final response = await _userAuthenticationData.authorizeFitbit(userId);
 
     return response;
+  }
+}
+
+class ActivitySummaryRepository {
+  final _activitySummaryData = ActivitySummaryData();
+
+  Future<ActivitySummaryModel> getActivitySummary() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('user_id');
+
+    final sleep = await _activitySummaryData.getSleep(userId);
+    final steps = await _activitySummaryData.getSteps(userId);
+    final calories = await _activitySummaryData.getCalories(userId);
+
+    return ActivitySummaryModel(
+      steps: steps['steps'],
+      total_minutes_asleep: sleep["totalMinutesAsleep"],
+      total_time_in_bed: sleep["totalTimeInBed"],
+      bmr: calories['bmr'],
+      calories_total: calories['total'],
+    );
   }
 }
