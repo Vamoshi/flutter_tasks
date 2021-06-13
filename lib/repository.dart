@@ -1,7 +1,8 @@
-import 'package:flutter_tasks/login_bloc/data/login_data.dart';
-import 'package:flutter_tasks/login_bloc/models/login_model.dart';
 import 'package:flutter_tasks/profile_bloc/data/profile_data.dart';
 import 'package:flutter_tasks/profile_bloc/models/profile_model.dart';
+import 'package:flutter_tasks/user_authentication_bloc/data/user_authentication_data.dart';
+import 'package:flutter_tasks/user_authentication_bloc/models/login_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileRepository {
   final _profileProvider = ProfileData();
@@ -35,16 +36,47 @@ class ProfileRepository {
   }
 }
 
-class LoginRepository {
-  final _loginProvider = LoginData();
+class UserAuthenticationRepository {
+  final _userAuthenticationData = UserAuthenticationData();
 
-  Future<LoginModel> getUserId(email, password) async {
-    final response = await _loginProvider.getUserId(email, password);
+  Future<UserAuthenticationModel> getUserId(email, password) async {
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getInt("user_id");
 
-    return LoginModel(
+    final response =
+        await _userAuthenticationData.getUserId(email, password, userId);
+
+    // cache user_id
+    prefs.setInt("user_id", response["user_id"]);
+
+    return UserAuthenticationModel(
       email: email,
       message: response['message'],
-      userId: response['result'],
+      userId: response['user_id'],
     );
+  }
+
+  Future<UserAuthenticationModel> registerUser(email, password) async {
+    final prefs = await SharedPreferences.getInstance();
+    // remove any existing user_id
+    prefs.remove("user_id");
+    final response =
+        await _userAuthenticationData.registerUser(email, password);
+
+    // cache user_id
+    // prefs.setInt("user_id", response["user_id"]);
+
+    return UserAuthenticationModel(
+        email: email,
+        message: response['message'],
+        userId: response['user_id']);
+  }
+
+  Future<UserAuthenticationModel> authorizeFitbit() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('user_id');
+    final response = await _userAuthenticationData.authorizeFitbit(userId);
+
+    return response;
   }
 }

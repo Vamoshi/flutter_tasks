@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class LoginModel extends Equatable {
+class UserAuthenticationModel extends Equatable {
   final String email;
   final String message;
   final int userId;
 
-  const LoginModel({
+  const UserAuthenticationModel({
     required this.email,
     required this.message,
     required this.userId,
